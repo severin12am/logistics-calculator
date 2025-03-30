@@ -134,12 +134,12 @@ const DeliveryForm: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={3}>
             {/* Route Section */}
-            <Grid item xs={12}>
+            <Grid xs={12}>
               <Typography variant="h6" gutterBottom>
                 Укажите маршрут
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+                <Grid xs={12} md={6}>
                   <TextField
                     fullWidth
                     label="Откуда"
@@ -148,7 +148,7 @@ const DeliveryForm: React.FC = () => {
                     placeholder="Введите адрес отправления"
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid xs={12} md={6}>
                   <TextField
                     fullWidth
                     label="Куда"
@@ -161,12 +161,12 @@ const DeliveryForm: React.FC = () => {
             </Grid>
 
             {/* Date and Time Section */}
-            <Grid item xs={12}>
+            <Grid xs={12}>
               <Typography variant="h6" gutterBottom>
                 Выберите дату и время
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+                <Grid xs={12} md={6}>
                   <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ru}>
                     <DatePicker
                       label="Дата"
@@ -176,7 +176,7 @@ const DeliveryForm: React.FC = () => {
                     />
                   </LocalizationProvider>
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid xs={12} md={6}>
                   <FormControl fullWidth>
                     <InputLabel>Время</InputLabel>
                     <Select
@@ -196,13 +196,13 @@ const DeliveryForm: React.FC = () => {
             </Grid>
 
             {/* Vehicle Selection Section */}
-            <Grid item xs={12}>
+            <Grid xs={12}>
               <Typography variant="h6" gutterBottom>
-                Выберите машину
+                Выберите тип транспорта
               </Typography>
               <Grid container spacing={2}>
                 {vehicles.map((vehicle) => (
-                  <Grid item xs={12} sm={6} md={4} key={vehicle.id}>
+                  <Grid xs={12} sm={6} md={4} key={vehicle.id}>
                     <Card
                       sx={{
                         cursor: 'pointer',
@@ -219,7 +219,10 @@ const DeliveryForm: React.FC = () => {
                       <CardContent>
                         <Typography variant="h6">{vehicle.name}</Typography>
                         <Typography variant="body2" color="text.secondary">
-                          Длина: {vehicle.length}, Высота: {vehicle.height}
+                          Длина: {vehicle.length}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Высота: {vehicle.height}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                           Объем: {vehicle.volume}
@@ -231,95 +234,72 @@ const DeliveryForm: React.FC = () => {
               </Grid>
             </Grid>
 
-            {/* Contact Details Section */}
-            <Grid item xs={12}>
+            {/* Contact Information Section */}
+            <Grid xs={12}>
               <Typography variant="h6" gutterBottom>
-                Уточните контакты
+                Контактная информация
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} md={4}>
+                <Grid xs={12} md={6}>
                   <TextField
                     fullWidth
                     label="Ваше имя"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
                   />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid xs={12} md={6}>
                   <TextField
                     fullWidth
                     label="Телефон"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     error={!!errors.contact}
+                    helperText={errors.contact}
                   />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid xs={12} md={6}>
                   <TextField
                     fullWidth
                     label="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    type="email"
                     error={!!errors.contact}
                   />
                 </Grid>
-                {errors.contact && (
-                  <Grid item xs={12}>
-                    <FormHelperText error>{errors.contact}</FormHelperText>
-                  </Grid>
-                )}
+                <Grid xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Комментарий"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    multiline
+                    rows={4}
+                  />
+                </Grid>
               </Grid>
             </Grid>
 
-            {/* Comment Section */}
-            <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
-                Добавьте комментарий к заказу
-              </Typography>
-              <TextField
-                fullWidth
-                multiline
-                rows={4}
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="Опишите ваш груз или добавьте дополнительную информацию"
-              />
-            </Grid>
-
             {/* Submit Button */}
-            <Grid item xs={12}>
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    setFromAddress('');
-                    setToAddress('');
-                    setSelectedDate(null);
-                    setSelectedTime('');
-                    setSelectedVehicle('');
-                    setName('');
-                    setPhone('');
-                    setEmail('');
-                    setComment('');
-                    setErrors({});
-                  }}
-                  disabled={isSubmitting}
-                >
-                  Очистить
-                </Button>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  size="large"
-                  disabled={(!phone && !email) || isSubmitting}
-                >
-                  {isSubmitting ? 'Отправка...' : 'Заказать доставку'}
-                </Button>
-              </Box>
+            <Grid xs={12}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                size="large"
+                fullWidth
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Отправка...' : 'Рассчитать стоимость'}
+              </Button>
             </Grid>
           </Grid>
         </form>
       </Paper>
+
+      {/* Status Snackbar */}
       <Snackbar
         open={!!submitStatus}
         autoHideDuration={6000}
