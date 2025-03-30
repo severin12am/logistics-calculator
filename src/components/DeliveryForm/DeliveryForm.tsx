@@ -125,16 +125,30 @@ const DeliveryForm: React.FC = () => {
 
   return (
     <>
-      <Paper elevation={3} sx={{ p: 4, maxWidth: 800, mx: 'auto', my: 4 }}>
-        <Typography variant="h5" gutterBottom>
-          Рассчитать стоимость доставки
-        </Typography>
-
+      <Paper
+        elevation={3}
+        sx={{
+          p: 4,
+          maxWidth: 800,
+          mx: 'auto',
+          borderRadius: 2,
+          background: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(10px)',
+        }}
+      >
         <form onSubmit={handleSubmit}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             {/* Route Section */}
             <Box>
-              <Typography variant="h6" gutterBottom>
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  color: 'primary.main',
+                  fontWeight: 500,
+                  mb: 2,
+                }}
+              >
                 Укажите маршрут
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
@@ -153,14 +167,22 @@ const DeliveryForm: React.FC = () => {
                   placeholder="Введите адрес назначения"
                 />
               </Box>
-              <Box sx={{ mt: 2, height: 400 }}>
+              <Box sx={{ mt: 2, height: 400, borderRadius: 1, overflow: 'hidden' }}>
                 <Map />
               </Box>
             </Box>
 
             {/* Date and Time Section */}
             <Box>
-              <Typography variant="h6" gutterBottom>
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  color: 'primary.main',
+                  fontWeight: 500,
+                  mb: 2,
+                }}
+              >
                 Выберите дату и время
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
@@ -193,7 +215,15 @@ const DeliveryForm: React.FC = () => {
 
             {/* Vehicle Selection Section */}
             <Box>
-              <Typography variant="h6" gutterBottom>
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  color: 'primary.main',
+                  fontWeight: 500,
+                  mb: 2,
+                }}
+              >
                 Выберите транспорт
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
@@ -204,7 +234,13 @@ const DeliveryForm: React.FC = () => {
                       flex: 1,
                       minWidth: 250,
                       cursor: 'pointer',
-                      border: selectedVehicle === vehicle.id ? '2px solid primary.main' : 'none',
+                      transition: 'all 0.2s ease-in-out',
+                      border: selectedVehicle === vehicle.id ? '2px solid' : '2px solid transparent',
+                      borderColor: selectedVehicle === vehicle.id ? 'primary.main' : 'transparent',
+                      '&:hover': {
+                        transform: 'translateY(-4px)',
+                        boxShadow: 4,
+                      },
                     }}
                     onClick={() => setSelectedVehicle(vehicle.id)}
                   >
@@ -213,9 +249,12 @@ const DeliveryForm: React.FC = () => {
                       height="140"
                       image={vehicle.imageUrl}
                       alt={vehicle.name}
+                      sx={{ objectFit: 'cover' }}
                     />
                     <CardContent>
-                      <Typography variant="h6">{vehicle.name}</Typography>
+                      <Typography variant="h6" gutterBottom>
+                        {vehicle.name}
+                      </Typography>
                       <Typography variant="body2" color="text.secondary">
                         Длина: {vehicle.length}
                       </Typography>
@@ -233,7 +272,15 @@ const DeliveryForm: React.FC = () => {
 
             {/* Contact Information Section */}
             <Box>
-              <Typography variant="h6" gutterBottom>
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  color: 'primary.main',
+                  fontWeight: 500,
+                  mb: 2,
+                }}
+              >
                 Контактная информация
               </Typography>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -276,6 +323,12 @@ const DeliveryForm: React.FC = () => {
               size="large"
               disabled={isSubmitting}
               fullWidth
+              sx={{
+                mt: 2,
+                py: 1.5,
+                fontSize: '1.1rem',
+                fontWeight: 500,
+              }}
             >
               {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
             </Button>
@@ -292,6 +345,7 @@ const DeliveryForm: React.FC = () => {
         <Alert
           onClose={() => setSubmitStatus(null)}
           severity={submitStatus?.success ? 'success' : 'error'}
+          sx={{ width: '100%' }}
         >
           {submitStatus?.message || ''}
         </Alert>
