@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from 'react';
+import type { YMaps } from 'yandex-maps';
 import { YANDEX_MAPS_CONFIG, MAP_STYLE } from '../../config/yandex-maps';
 import { loadYandexMaps } from '../../utils/loadYandexMaps';
 
 interface MapProps {
   center?: [number, number];
   zoom?: number;
-  onMapLoad?: (map: any) => void;
+  onMapLoad?: (map: YMaps['Map']) => void;
 }
 
 export const Map: React.FC<MapProps> = ({
@@ -14,7 +15,7 @@ export const Map: React.FC<MapProps> = ({
   onMapLoad,
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any>(null);
+  const mapInstanceRef = useRef<YMaps['Map'] | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -46,7 +47,7 @@ export const Map: React.FC<MapProps> = ({
     return () => {
       isMounted = false;
       if (mapInstanceRef.current) {
-        mapInstanceRef.current.destroy();
+        mapInstanceRef.current.destroy?.();
       }
     };
   }, [center, zoom, onMapLoad]);

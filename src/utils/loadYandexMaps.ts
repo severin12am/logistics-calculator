@@ -1,4 +1,4 @@
-import type { YMapsInstance } from '../types/yandex-maps';
+import type { YMaps } from 'yandex-maps';
 
 export const loadYandexMaps = (): Promise<void> => {
   return new Promise((resolve, reject) => {
@@ -24,6 +24,9 @@ export const loadYandexMaps = (): Promise<void> => {
 // Add type declaration for window.ymaps
 declare global {
   interface Window {
-    ymaps: YMapsInstance;
+    ymaps: {
+      ready: () => Promise<YMaps>;
+      Map: any;
+    };
   }
 } 
