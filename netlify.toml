@@ -1,7 +1,7 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.yandex.ru https://*.maps.yandex.net https://yastatic.net data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.yandex.ru https://*.maps.yandex.net https://api-maps.yandex.ru https://yastatic.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.maps.yandex.net https://api-maps.yandex.ru https://*.yandex.ru https://yastatic.net; connect-src 'self' https://*.maps.yandex.net https://api-maps.yandex.ru https://*.yandex.ru https://yastatic.net;"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.yandex.ru https://*.maps.yandex.net https://api-maps.yandex.ru https://yastatic.net; worker-src 'self' blob:; child-src blob: https://*.yandex.ru https://*.maps.yandex.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.maps.yandex.net https://api-maps.yandex.ru https://*.yandex.ru https://yastatic.net; connect-src 'self' https://*.maps.yandex.net https://api-maps.yandex.ru https://*.yandex.ru https://yastatic.net;"
 
 [build]
   command = "npm run build"
