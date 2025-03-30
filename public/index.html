@@ -9,6 +9,10 @@
       name="description"
       content="Logistics Calculator - Route planning and optimization"
     />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-eval' https://api-maps.yandex.ru; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.maps.yandex.net https://api-maps.yandex.ru https://*.yandex.ru; connect-src 'self' https://*.maps.yandex.net https://api-maps.yandex.ru https://*.yandex.ru;"
+    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -25,6 +29,7 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Logistics Calculator</title>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=%REACT_APP_YANDEX_MAPS_API_KEY%&lang=ru_RU" type="text/javascript"></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
