@@ -132,8 +132,10 @@ const DeliveryForm: React.FC = () => {
           maxWidth: 800,
           mx: 'auto',
           borderRadius: 2,
-          background: 'rgba(255, 255, 255, 0.9)',
+          background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(10px)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
         }}
       >
         <form onSubmit={handleSubmit}>
