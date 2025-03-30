@@ -5,7 +5,6 @@ import {
   Typography,
   TextField,
   Button,
-  Grid,
   FormControl,
   InputLabel,
   Select,
@@ -132,170 +131,147 @@ const DeliveryForm: React.FC = () => {
         </Typography>
 
         <form onSubmit={handleSubmit}>
-          <Grid container spacing={3}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             {/* Route Section */}
-            <Grid xs={12}>
+            <Box>
               <Typography variant="h6" gutterBottom>
                 Укажите маршрут
               </Typography>
-              <Grid container spacing={2}>
-                <Grid xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    label="Откуда"
-                    value={fromAddress}
-                    onChange={(e) => setFromAddress(e.target.value)}
-                    placeholder="Введите адрес отправления"
-                  />
-                </Grid>
-                <Grid xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    label="Куда"
-                    value={toAddress}
-                    onChange={(e) => setToAddress(e.target.value)}
-                    placeholder="Введите адрес назначения"
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
+              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                <TextField
+                  sx={{ flex: 1, minWidth: 200 }}
+                  label="Откуда"
+                  value={fromAddress}
+                  onChange={(e) => setFromAddress(e.target.value)}
+                  placeholder="Введите адрес отправления"
+                />
+                <TextField
+                  sx={{ flex: 1, minWidth: 200 }}
+                  label="Куда"
+                  value={toAddress}
+                  onChange={(e) => setToAddress(e.target.value)}
+                  placeholder="Введите адрес назначения"
+                />
+              </Box>
+            </Box>
 
             {/* Date and Time Section */}
-            <Grid xs={12}>
+            <Box>
               <Typography variant="h6" gutterBottom>
                 Выберите дату и время
               </Typography>
-              <Grid container spacing={2}>
-                <Grid xs={12} md={6}>
+              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                <Box sx={{ flex: 1, minWidth: 200 }}>
                   <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ru}>
                     <DatePicker
                       label="Дата"
                       value={selectedDate}
                       onChange={(newValue) => setSelectedDate(newValue)}
-                      renderInput={(params) => <TextField {...params} fullWidth />}
+                      slotProps={{ textField: { fullWidth: true } }}
                     />
                   </LocalizationProvider>
-                </Grid>
-                <Grid xs={12} md={6}>
-                  <FormControl fullWidth>
-                    <InputLabel>Время</InputLabel>
-                    <Select
-                      value={selectedTime}
-                      label="Время"
-                      onChange={(e) => setSelectedTime(e.target.value)}
-                    >
-                      {Array.from({ length: 24 }, (_, i) => (
-                        <MenuItem key={i} value={`${i}:00`}>
-                          {`${i}:00`}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Grid>
+                </Box>
+                <FormControl sx={{ flex: 1, minWidth: 200 }}>
+                  <InputLabel>Время</InputLabel>
+                  <Select
+                    value={selectedTime}
+                    label="Время"
+                    onChange={(e) => setSelectedTime(e.target.value)}
+                  >
+                    {Array.from({ length: 24 }, (_, i) => (
+                      <MenuItem key={i} value={`${i}:00`}>
+                        {`${i}:00`}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+            </Box>
 
             {/* Vehicle Selection Section */}
-            <Grid xs={12}>
+            <Box>
               <Typography variant="h6" gutterBottom>
-                Выберите тип транспорта
+                Выберите транспорт
               </Typography>
-              <Grid container spacing={2}>
+              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                 {vehicles.map((vehicle) => (
-                  <Grid xs={12} sm={6} md={4} key={vehicle.id}>
-                    <Card
-                      sx={{
-                        cursor: 'pointer',
-                        border: selectedVehicle === vehicle.id ? '2px solid #1976d2' : 'none',
-                      }}
-                      onClick={() => setSelectedVehicle(vehicle.id)}
-                    >
-                      <CardMedia
-                        component="img"
-                        height="140"
-                        image={vehicle.imageUrl}
-                        alt={vehicle.name}
-                      />
-                      <CardContent>
-                        <Typography variant="h6">{vehicle.name}</Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Длина: {vehicle.length}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Высота: {vehicle.height}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Объем: {vehicle.volume}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
+                  <Card key={vehicle.id} sx={{ flex: 1, minWidth: 250 }}>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={vehicle.imageUrl}
+                      alt={vehicle.name}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h6" component="div">
+                        {vehicle.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Длина: {vehicle.length}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Высота: {vehicle.height}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Объем: {vehicle.volume}
+                      </Typography>
+                    </CardContent>
+                  </Card>
                 ))}
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
 
             {/* Contact Information Section */}
-            <Grid xs={12}>
+            <Box>
               <Typography variant="h6" gutterBottom>
                 Контактная информация
               </Typography>
-              <Grid container spacing={2}>
-                <Grid xs={12} md={6}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                   <TextField
-                    fullWidth
+                    sx={{ flex: 1, minWidth: 200 }}
                     label="Ваше имя"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    required
                   />
-                </Grid>
-                <Grid xs={12} md={6}>
                   <TextField
-                    fullWidth
+                    sx={{ flex: 1, minWidth: 200 }}
                     label="Телефон"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     error={!!errors.contact}
                     helperText={errors.contact}
                   />
-                </Grid>
-                <Grid xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    label="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    type="email"
-                    error={!!errors.contact}
-                  />
-                </Grid>
-                <Grid xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Комментарий"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    multiline
-                    rows={4}
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
+                </Box>
+                <TextField
+                  fullWidth
+                  label="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  error={!!errors.contact}
+                />
+                <TextField
+                  fullWidth
+                  label="Комментарий"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  multiline
+                  rows={4}
+                />
+              </Box>
+            </Box>
 
             {/* Submit Button */}
-            <Grid xs={12}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                size="large"
-                fullWidth
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Отправка...' : 'Рассчитать стоимость'}
-              </Button>
-            </Grid>
-          </Grid>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Отправка...' : 'Рассчитать стоимость'}
+            </Button>
+          </Box>
         </form>
       </Paper>
 
