@@ -44,4 +44,6 @@ declare module 'yandex-maps' {
   }
 
   export function load(apiKey: string): Promise<YMapsInstance>;
-} 
+}
+
+export {}; 
