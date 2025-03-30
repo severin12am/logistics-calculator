@@ -12,7 +12,6 @@ import {
   Card,
   CardContent,
   CardMedia,
-  FormHelperText,
   Snackbar,
   Alert,
 } from '@mui/material';

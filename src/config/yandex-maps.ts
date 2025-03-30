@@ -1,5 +1,3 @@
-import type { YMaps } from 'yandex-maps';
-
 export const YANDEX_MAPS_CONFIG = {
   apiKey: process.env.REACT_APP_YANDEX_MAPS_API_KEY || '',
   center: [55.76, 37.64], // Moscow coordinates
