@@ -1,26 +1,33 @@
 import axios from 'axios';
 
 interface OrderData {
-  date: string;
-  customerName: string;
-  address: string;
+  fromAddress: string;
+  toAddress: string;
+  selectedDate: Date | null;
+  selectedTime: string;
+  selectedVehicle: string;
+  name: string;
   phone: string;
-  vehicleType: string;
-  price: number;
+  email: string;
+  comment: string;
 }
 
 export const submitOrderToSheets = async (orderData: OrderData) => {
   try {
+    const formattedDate = orderData.selectedDate 
+      ? orderData.selectedDate.toLocaleDateString('ru-RU')
+      : '';
+
     const response = await axios.post(
       `https://sheets.googleapis.com/v4/spreadsheets/${process.env.REACT_APP_GOOGLE_SHEETS_API_KEY}/values/A1:append?valueInputOption=USER_ENTERED`,
       {
         values: [[
-          orderData.date,
-          orderData.customerName,
-          orderData.address,
+          formattedDate,
+          orderData.name,
+          `${orderData.fromAddress} → ${orderData.toAddress}`,
           orderData.phone,
-          orderData.vehicleType,
-          orderData.price
+          orderData.selectedVehicle,
+          orderData.comment || ''
         ]]
       },
       {
