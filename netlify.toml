@@ -1,7 +1,7 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-eval' https://api-maps.yandex.ru; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.maps.yandex.net https://api-maps.yandex.ru https://*.yandex.ru; connect-src 'self' https://*.maps.yandex.net https://api-maps.yandex.ru https://*.yandex.ru;"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-eval' https://api-maps.yandex.ru https://yastatic.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.maps.yandex.net https://api-maps.yandex.ru https://*.yandex.ru https://yastatic.net; connect-src 'self' https://*.maps.yandex.net https://api-maps.yandex.ru https://*.yandex.ru https://yastatic.net;"
 
 [build]
   command = "npm run build"
