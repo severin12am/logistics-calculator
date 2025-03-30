@@ -1,57 +1,37 @@
 import axios from 'axios';
 
 interface OrderData {
-  fromAddress: string;
-  toAddress: string;
-  selectedDate: Date | null;
-  selectedTime: string;
-  selectedVehicle: string;
-  name: string;
+  date: string;
+  customerName: string;
+  address: string;
   phone: string;
-  email: string;
-  comment: string;
+  vehicleType: string;
+  price: number;
 }
 
-const TELEGRAM_BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
-const TELEGRAM_CHAT_ID = 'YOUR_TELEGRAM_CHAT_ID';
-const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-
-export const submitOrderToTelegram = async (orderData: OrderData): Promise<boolean> => {
+export const submitOrderToTelegram = async (orderData: OrderData) => {
   try {
-    const message = formatOrderMessage(orderData);
-    const response = await axios.post(TELEGRAM_API_URL, {
-      chat_id: TELEGRAM_CHAT_ID,
-      text: message,
-      parse_mode: 'HTML',
-    });
-
-    return response.status === 200;
-  } catch (error) {
-    console.error('Error submitting order to Telegram:', error);
-    return false;
-  }
-};
-
-const formatOrderMessage = (orderData: OrderData): string => {
-  return `
-<b>Новый заказ на доставку</b>
-
-<b>Маршрут:</b>
-От: ${orderData.fromAddress}
-До: ${orderData.toAddress}
-
-<b>Дата и время:</b>
-${orderData.selectedDate?.toLocaleDateString('ru-RU')} ${orderData.selectedTime}
-
-<b>Транспорт:</b>
-${orderData.selectedVehicle}
-
-<b>Контактные данные:</b>
-Имя: ${orderData.name}
+    const message = `
+Новый заказ:
+Дата: ${orderData.date}
+Клиент: ${orderData.customerName}
+Адрес: ${orderData.address}
 Телефон: ${orderData.phone}
-Email: ${orderData.email}
+Тип ТС: ${orderData.vehicleType}
+Цена: ${orderData.price}
+    `;
 
-<b>Комментарий:</b>
-${orderData.comment || 'Нет комментария'}
-  `.trim();
+    const response = await axios.post(
+      `https://api.telegram.org/bot${process.env.REACT_APP_TELEGRAM_BOT_TOKEN}/sendMessage`,
+      {
+        chat_id: process.env.REACT_APP_TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: 'HTML'
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error sending to Telegram:', error);
+    throw error;
+  }
 }; 
