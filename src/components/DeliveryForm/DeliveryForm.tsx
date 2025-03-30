@@ -22,6 +22,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { ru } from 'date-fns/locale';
 import { submitOrderToSheets } from '../../services/sheets';
 import { submitOrderToTelegram } from '../../services/telegram';
+import { Map } from '../Map/Map';
 
 interface Vehicle {
   id: string;
@@ -153,6 +154,9 @@ const DeliveryForm: React.FC = () => {
                   placeholder="Введите адрес назначения"
                 />
               </Box>
+              <Box sx={{ mt: 2, height: 400 }}>
+                <Map />
+              </Box>
             </Box>
 
             {/* Date and Time Section */}
@@ -195,7 +199,16 @@ const DeliveryForm: React.FC = () => {
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                 {vehicles.map((vehicle) => (
-                  <Card key={vehicle.id} sx={{ flex: 1, minWidth: 250 }}>
+                  <Card
+                    key={vehicle.id}
+                    sx={{
+                      flex: 1,
+                      minWidth: 250,
+                      cursor: 'pointer',
+                      border: selectedVehicle === vehicle.id ? '2px solid primary.main' : 'none',
+                    }}
+                    onClick={() => setSelectedVehicle(vehicle.id)}
+                  >
                     <CardMedia
                       component="img"
                       height="140"
@@ -203,9 +216,7 @@ const DeliveryForm: React.FC = () => {
                       alt={vehicle.name}
                     />
                     <CardContent>
-                      <Typography gutterBottom variant="h6" component="div">
-                        {vehicle.name}
-                      </Typography>
+                      <Typography variant="h6">{vehicle.name}</Typography>
                       <Typography variant="body2" color="text.secondary">
                         Длина: {vehicle.length}
                       </Typography>
@@ -227,66 +238,63 @@ const DeliveryForm: React.FC = () => {
                 Контактная информация
               </Typography>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                  <TextField
-                    sx={{ flex: 1, minWidth: 200 }}
-                    label="Ваше имя"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                  <TextField
-                    sx={{ flex: 1, minWidth: 200 }}
-                    label="Телефон"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    error={!!errors.contact}
-                    helperText={errors.contact}
-                  />
-                </Box>
                 <TextField
+                  label="Имя"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   fullWidth
+                />
+                <TextField
+                  label="Телефон"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  fullWidth
+                  error={!!errors.contact}
+                  helperText={errors.contact}
+                />
+                <TextField
                   label="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  fullWidth
                   error={!!errors.contact}
                 />
                 <TextField
-                  fullWidth
                   label="Комментарий"
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                   multiline
                   rows={4}
+                  fullWidth
                 />
               </Box>
             </Box>
 
-            {/* Submit Button */}
             <Button
               type="submit"
               variant="contained"
               color="primary"
-              fullWidth
+              size="large"
               disabled={isSubmitting}
+              fullWidth
             >
-              {isSubmitting ? 'Отправка...' : 'Рассчитать стоимость'}
+              {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
             </Button>
           </Box>
         </form>
       </Paper>
 
-      {/* Status Snackbar */}
       <Snackbar
         open={!!submitStatus}
         autoHideDuration={6000}
         onClose={() => setSubmitStatus(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <Alert
           onClose={() => setSubmitStatus(null)}
           severity={submitStatus?.success ? 'success' : 'error'}
-          sx={{ width: '100%' }}
         >
-          {submitStatus?.message}
+          {submitStatus?.message || ''}
         </Alert>
       </Snackbar>
     </>
